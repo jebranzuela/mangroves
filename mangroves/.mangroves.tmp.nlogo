@@ -602,10 +602,14 @@ to storm
       ask patch-here [
         kill-tree-here
         set stormKilled stormKilled + 1
+        set sulphide 2
+        set features 3
       ]
       ask patches in-radius 30 [
         kill-tree-here
         set stormKilled stormKilled + 1
+        set sulphide 2
+        set features 3
       ]
     ]
   ]
@@ -619,6 +623,8 @@ to storm
       if random-float 1.0 <= 0.9 [
         kill-tree-here
         set stormKilled stormKilled + 1
+        set sulphide 2
+        set features 3
       ]
     ]
     set i i + 1
@@ -630,9 +636,15 @@ to storm
 end
 
 to spray
-
+  let target one-of planted-patches
+  if target = nobody [
+    set target one-of free-patches
+  ]
+  ask target [
+    set sulphide 2
+    set features 3
+  ]
 end
-
 to-report planted-patches
   report patches with [ features = 2 and fertility > 0 and occupied = False ]
 end
@@ -697,11 +709,11 @@ to-report next-storm-schedule
   ; report days + random-exponential storm-beta
   ; For experimentation, make it fixed:
   ifelse days = 0 [
-  ;  report days + 1000
-    report days + 100
+    report days + 1000
+;    report days + 100
   ][
-    report days + 00
-  ;  report days + 8212
+;    report days + 1000
+    report days + 8212
   ]
 end
 
@@ -822,9 +834,9 @@ to load-scenario
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
+11
 10
-10
-558
+559
 559
 -1
 -1
